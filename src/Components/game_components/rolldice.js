@@ -17,7 +17,11 @@ class Rolldice extends Component {
     rollDice = () => {
         const newState = this.state;
 
-        newState.dices.filter(die => die.choice === false).map(die => die.value = Math.floor(Math.random() * 6 + 1));
+        newState.dices.map(die =>
+            (die.choice === false
+                ? die.value = Math.floor(Math.random() * 6 + 1)
+                : die)
+        );
 
         newState.trialNumber = newState.trialNumber + 1;
 
@@ -26,16 +30,20 @@ class Rolldice extends Component {
 
     chooseDie = (e) => {
 
-        console.log(e.target.value);
-
         const callBackId = parseInt(e.target.id);
 
         const newDicesState = this.state.dices;
 
-        newDicesState.filter(die => die.id === callBackId).map(die => die.choice = !die.choice);
+        newDicesState.filter(die => die.id === callBackId).map(die =>
+            (die.value === 0
+                ? alert('roll dice first')
+                : die.choice = !die.choice)
+        );
 
         this.setState({ dices: newDicesState });
+
     }
+
 
     diceStateReset = () => {
 
