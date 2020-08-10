@@ -10,7 +10,7 @@ class Scoreboardline extends Component {
 
     scoreDisplay = (e, e2) => {
         if (e === null && this.props.game.dicetrials > 0) {
-            return(<span style={{color: 'gray', opacity: '0.5'}}>{this.scoreDisplayRun(e2)}</span>);
+            return (<span style={{ color: 'gray', opacity: '0.5' }}>{this.scoreDisplayRun(e2)}</span>);
         } else {
             return (e);
         }
@@ -44,6 +44,7 @@ class Scoreboardline extends Component {
                 dicesvalues.filter(value => value === 6).map(value => unknownScore = unknownScore + value)
                 break;
             case 'Choice':
+                unknownScore = valuesSum;
                 break;
             case '4 of a Kind':
                 if (dicesvalues[0] === dicesvalues[3] || dicesvalues[1] === dicesvalues[4]) {
