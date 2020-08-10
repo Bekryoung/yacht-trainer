@@ -26,7 +26,85 @@ class Scoreboard extends Component {
     }
 
     scoreSwitch = (e) => {
+        if (this.props.dicetrials === 0) {
+            alert('roll dice first')
+        } else {
+            this.scoreSwitchRun(e)
+        }
+    }
+
+    scoreSwitchRun = (e) => {
+        const { dicesvalues } = this.props;
+        const setDicevalues = Array.from(new Set(dicesvalues));
+
+        let unknownScore = 0;
+        let valuesSum = 0;
+        dicesvalues.map(value => valuesSum = valuesSum + value);
+
         const newState = this.state;
+
+        switch (e) {
+            case 'Aces':
+                dicesvalues.filter(value => value === 1).map(value => unknownScore = unknownScore + value)
+                newState.Aces.score = unknownScore;
+                break;
+            case 'Deuces':
+                dicesvalues.filter(value => value === 2).map(value => unknownScore = unknownScore + value)
+                newState.Deuces.score = unknownScore;
+                break;
+            case 'Threes':
+                dicesvalues.filter(value => value === 3).map(value => unknownScore = unknownScore + value)
+                newState.Threes.score = unknownScore;
+                break;
+            case 'Fours':
+                dicesvalues.filter(value => value === 4).map(value => unknownScore = unknownScore + value)
+                newState.Fours.score = unknownScore;
+                break;
+            case 'Fives':
+                dicesvalues.filter(value => value === 5).map(value => unknownScore = unknownScore + value)
+                newState.Fives.score = unknownScore;
+                break;
+            case 'Sixes':
+                dicesvalues.filter(value => value === 6).map(value => unknownScore = unknownScore + value)
+                newState.Sixes.score = unknownScore;
+                break;
+            case 'Choice':
+                newState.Choice.score = valuesSum;
+                break;
+            case '4 of a Kind':
+                if (dicesvalues[0] === dicesvalues[3] || dicesvalues[1] === dicesvalues[4]) {
+                    unknownScore = valuesSum;
+                }
+                newState.FoK.score = unknownScore;
+                break;
+            case 'Full House':
+                if ((dicesvalues[0] === dicesvalues[2] && dicesvalues[3] === dicesvalues[4]) || (dicesvalues[0] === dicesvalues[1] && dicesvalues[2] === dicesvalues[4])) {
+                    unknownScore = valuesSum;
+                }
+                newState.FullHouse.score = unknownScore
+                break;
+            case 'S.Straight':
+                if (setDicevalues[0] === setDicevalues[3] - 3 || setDicevalues[1] === setDicevalues[4] - 3) {
+                    unknownScore = 15;
+                }
+                console.log(setDicevalues[0]);
+                newState.SStraight.score = unknownScore;
+                break;
+            case 'L.Straight':
+                if (setDicevalues[0] === setDicevalues[4] - 4) {
+                    unknownScore = 30;
+                }
+                newState.LStraight.score = unknownScore;
+                break;
+            case 'Yacht':
+                if (dicesvalues[0] === dicesvalues[4]) {
+                    unknownScore = 50;
+                }
+                newState.Yacht.score = unknownScore
+                break;
+            default:
+                ;
+        }
 
         const Aces = newState.Aces.score;
         const Deuces = newState.Deuces.score
@@ -41,56 +119,17 @@ class Scoreboard extends Component {
         const LStraight = newState.LStraight.score
         const Yacht = newState.Yacht.score
 
-        switch (e) {
-            case 'Aces':
-                newState.Aces.score = Aces + 1;
-                break;
-            case 'Deuces':
-                newState.Deuces.score = 0;
-                break;
-            case 'Threes':
-                newState.Aces.score = newState.Aces.score + 1;
-                break;
-            case 'Fours':
-                newState.Aces.score = newState.Aces.score + 1;
-                break;
-            case 'Fives':
-                newState.Aces.score = newState.Aces.score + 1;
-                break;
-            case 'Sixes':
-                newState.Aces.score = newState.Aces.score + 1;
-                break;
-            case 'Choice':
-                newState.Aces.score = newState.Aces.score + 1;
-                break;
-            case '4 of a Kind':
-                newState.Aces.score = newState.Aces.score + 1;
-                break;
-            case 'Full House':
-                newState.Aces.score = newState.Aces.score + 1;
-                break;
-            case 'S.Straight':
-                newState.Aces.score = newState.Aces.score + 1;
-                break;
-            case 'L.Straight':
-                newState.Aces.score = newState.Aces.score + 1;
-                break;
-            case 'Yacht':
-                newState.Aces.score = newState.Aces.score + 1;
-                break;
-            default:
-                ;
-        }
-
         const subTotal = Aces + Deuces + Threes + Fours + Fives + Sixes;
-        const Bonus = (subTotal >= 63? 35: null);
-        const Total = subTotal + Bonus + Choice + FoK + FullHouse + SStraight + LStraight +Yacht;
+        const Bonus = (subTotal >= 63 ? 35 : null);
+        const Total = subTotal + Bonus + Choice + FoK + FullHouse + SStraight + LStraight + Yacht;
 
-        newState.Subtotal = subTotal;
+        newState.Subtotal = Aces + Deuces + Threes + Fours + Fives + Sixes;
         newState.Bonus = Bonus;
         newState.Total = Total;
 
         this.setState(newState);
+
+        this.props.diceRollReset();
     }
 
     render() {
