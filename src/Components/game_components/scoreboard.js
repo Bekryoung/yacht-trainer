@@ -5,22 +5,23 @@ import Scoreboardline from './scoreboardline'
 class Scoreboard extends Component {
 
     state = {
-        Aces: { score: null, name: 'Aces' },
-        Deuces: { score: null, name: 'Deuces' },
-        Threes: { score: null, name: 'Threes' },
-        Fours: { score: null, name: 'Fours' },
-        Fives: { score: null, name: 'Fives' },
-        Sixes: { score: null, name: 'Sixes' },
+        scores: [
+            { score: null, name: 'Aces', Category: 'upper' },
+            { score: null, name: 'Deuces', Category: 'upper' },
+            { score: null, name: 'Threes', Category: 'upper' },
+            { score: null, name: 'Fours', Category: 'upper' },
+            { score: null, name: 'Fives', Category: 'upper' },
+            { score: null, name: 'Sixes', Category: 'upper' },
+            { score: null, name: 'Choice', Category: 'downer' },
+            { score: null, name: '4 of a Kind', Category: 'downer' },
+            { score: null, name: 'Full House', Category: 'downer' },
+            { score: null, name: 'S.Straight', Category: 'downer' },
+            { score: null, name: 'L.Straight', Category: 'downer' },
+            { score: null, name: 'Yacht', Category: 'downer' },
+        ],
 
         Subtotal: 0,
         Bonus: null,
-
-        Choice: { score: null, name: 'Choice' },
-        FoK: { score: null, name: '4 of a Kind' },
-        FullHouse: { score: null, name: 'Full House' },
-        SStraight: { score: null, name: 'S.Straight' },
-        LStraight: { score: null, name: 'L.Straight' },
-        Yacht: { score: null, name: 'Yacht' },
 
         Total: 0
     }
@@ -45,97 +46,96 @@ class Scoreboard extends Component {
 
         switch (e) {
             case 'Aces':
-                dicesvalues.filter(value => value === 1).map(value => unknownScore = unknownScore + value)
-                newState.Aces.score = unknownScore;
+                dicesvalues.filter(value => value === 1).map(value => unknownScore = unknownScore + value);
+                newState.scores.filter(line => line.name === e)[0].score = unknownScore;
                 break;
             case 'Deuces':
                 dicesvalues.filter(value => value === 2).map(value => unknownScore = unknownScore + value)
-                newState.Deuces.score = unknownScore;
+                newState.scores.filter(line => line.name === e)[0].score = unknownScore;
                 break;
             case 'Threes':
                 dicesvalues.filter(value => value === 3).map(value => unknownScore = unknownScore + value)
-                newState.Threes.score = unknownScore;
+                newState.scores.filter(line => line.name === e)[0].score = unknownScore;
                 break;
             case 'Fours':
                 dicesvalues.filter(value => value === 4).map(value => unknownScore = unknownScore + value)
-                newState.Fours.score = unknownScore;
+                newState.scores.filter(line => line.name === e)[0].score = unknownScore;
                 break;
             case 'Fives':
                 dicesvalues.filter(value => value === 5).map(value => unknownScore = unknownScore + value)
-                newState.Fives.score = unknownScore;
+                newState.scores.filter(line => line.name === e)[0].score = unknownScore;
                 break;
             case 'Sixes':
                 dicesvalues.filter(value => value === 6).map(value => unknownScore = unknownScore + value)
-                newState.Sixes.score = unknownScore;
+                newState.scores.filter(line => line.name === e)[0].score = unknownScore;
                 break;
             case 'Choice':
-                newState.Choice.score = valuesSum;
+                unknownScore = valuesSum;
+                newState.scores.filter(line => line.name === e)[0].score = unknownScore;
                 break;
             case '4 of a Kind':
                 if (dicesvalues[0] === dicesvalues[3] || dicesvalues[1] === dicesvalues[4]) {
                     unknownScore = valuesSum;
                 }
-                newState.FoK.score = unknownScore;
+                newState.scores.filter(line => line.name === e)[0].score = unknownScore;
                 break;
             case 'Full House':
                 if ((dicesvalues[0] === dicesvalues[2] && dicesvalues[3] === dicesvalues[4]) || (dicesvalues[0] === dicesvalues[1] && dicesvalues[2] === dicesvalues[4])) {
                     unknownScore = valuesSum;
                 }
-                newState.FullHouse.score = unknownScore
+                newState.scores.filter(line => line.name === e)[0].score = unknownScore;
                 break;
             case 'S.Straight':
                 if (setDicevalues[0] === setDicevalues[3] - 3 || setDicevalues[1] === setDicevalues[4] - 3) {
                     unknownScore = 15;
                 }
-                console.log(setDicevalues[0]);
-                newState.SStraight.score = unknownScore;
+                newState.scores.filter(line => line.name === e)[0].score = unknownScore;
                 break;
             case 'L.Straight':
                 if (setDicevalues[0] === setDicevalues[4] - 4) {
                     unknownScore = 30;
                 }
-                newState.LStraight.score = unknownScore;
+                newState.scores.filter(line => line.name === e)[0].score = unknownScore;
                 break;
             case 'Yacht':
                 if (dicesvalues[0] === dicesvalues[4]) {
                     unknownScore = 50;
                 }
-                newState.Yacht.score = unknownScore
+                newState.scores.filter(line => line.name === e)[0].score = unknownScore;
                 break;
             default:
                 ;
         }
 
-        const Aces = newState.Aces.score;
-        const Deuces = newState.Deuces.score
-        const Threes = newState.Threes.score
-        const Fours = newState.Fours.score
-        const Fives = newState.Fives.score
-        const Sixes = newState.Sixes.score
-        const Choice = newState.Choice.score
-        const FoK = newState.FoK.score
-        const FullHouse = newState.FullHouse.score
-        const SStraight = newState.SStraight.score
-        const LStraight = newState.LStraight.score
-        const Yacht = newState.Yacht.score
+        let Subtotal = null;
 
-        const subTotal = Aces + Deuces + Threes + Fours + Fives + Sixes;
-        const Bonus = (subTotal >= 63 ? 35 : null);
-        const Total = subTotal + Bonus + Choice + FoK + FullHouse + SStraight + LStraight + Yacht;
+        newState.scores.filter(line => line.Category === 'upper').map(line => Subtotal = Subtotal + line.score)
 
-        newState.Subtotal = Aces + Deuces + Threes + Fours + Fives + Sixes;
+        const Bonus = (Subtotal >= 63 ? 35 : null)
+
+        let Total = null;
+
+        newState.scores.map(line => Total = Total + line.score)
+
+        newState.Subtotal = Subtotal
         newState.Bonus = Bonus;
         newState.Total = Total;
 
         this.setState(newState);
 
         this.props.diceRollReset();
-    }
+    };
 
     render() {
         const Score = (props) => <span style={{ fontWeight: 'bold', color: 'blue' }}>{props.children}</span>
 
-        const { Aces, Deuces, Threes, Fours, Fives, Sixes, Subtotal, Bonus, Choice, FoK, FullHouse, SStraight, LStraight, Yacht, Total } = this.state;
+        const { Subtotal, Bonus, Total } = this.state;
+
+        const scoreDisplay = (e) => {
+            return (
+                this.state.scores.filter(line => line.Category === e).map(line => <Scoreboardline subject={line} game={this.props} scoreSwitch={this.scoreSwitch} key={line.name} />)
+            );
+        }
 
         return (
             <div>
@@ -143,20 +143,10 @@ class Scoreboard extends Component {
                 <table border="1" cellPadding="5px">
                     <tbody>
                         <tr style={{ fontWeight: "bold", backgroundColor: "lightgray" }}><td>Categories</td><td>Score</td><td></td></tr>
-                        <Scoreboardline subject={Aces} scoreSwitch={this.scoreSwitch} />
-                        <Scoreboardline subject={Deuces} scoreSwitch={this.scoreSwitch} />
-                        <Scoreboardline subject={Threes} scoreSwitch={this.scoreSwitch} />
-                        <Scoreboardline subject={Fours} scoreSwitch={this.scoreSwitch} />
-                        <Scoreboardline subject={Fives} scoreSwitch={this.scoreSwitch} />
-                        <Scoreboardline subject={Sixes} scoreSwitch={this.scoreSwitch} />
+                        {scoreDisplay('upper')}
                         <tr style={{ backgroundColor: "lightgray" }}><td><b>Subtotal</b></td><td><Score>{Subtotal}</Score></td><td> </td></tr>
                         <tr style={{ backgroundColor: "lightgray" }}><td><b>Bonus</b></td><td><Score>{Bonus}</Score></td><td></td></tr>
-                        <Scoreboardline subject={Choice} scoreSwitch={this.scoreSwitch} />
-                        <Scoreboardline subject={FoK} scoreSwitch={this.scoreSwitch} />
-                        <Scoreboardline subject={FullHouse} scoreSwitch={this.scoreSwitch} />
-                        <Scoreboardline subject={SStraight} scoreSwitch={this.scoreSwitch} />
-                        <Scoreboardline subject={LStraight} scoreSwitch={this.scoreSwitch} />
-                        <Scoreboardline subject={Yacht} scoreSwitch={this.scoreSwitch} />
+                        {scoreDisplay('downer')}
                         <tr style={{ backgroundColor: "lightgray" }}><td><b>Total</b></td><td><Score>{Total}</Score></td><td></td></tr>
                     </tbody>
                 </table>

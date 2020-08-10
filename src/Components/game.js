@@ -79,7 +79,7 @@ class Game extends Component {
 
         const { dices, dicetrials, dicesvalues } = this.state
         return (
-            <div style={basic_div}>game board{this.state.dicesvalues}
+            <div style={basic_div}>game board
                 <div style={game_div}>
                     <Scoreboard
                         dicetrials={dicetrials}
